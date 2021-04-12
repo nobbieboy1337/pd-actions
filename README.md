@@ -1,5 +1,4 @@
 <h1 align="center"> PD Actions </h1>
-<br>
 <h4 align="center">Continuous reconnaissance and vulnerability assessment using <a href='https://github.com/features/actions'>GitHub Actions</a></h4>
 
 
