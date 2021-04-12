@@ -79,6 +79,23 @@ Checkout our blog-post https://blog.projectdiscovery.io/github-actions-for-appli
 
 We have also added a few [example workflows](https://github.com/projectdiscovery/pd-actions/tree/main/workflows) to run individual projects, we will add more workflows example to cover different use cases to improve security of organization, if you got more workflows example to share with community? please don't hesitate to open a PR :smile:
 
+<table>
+<tr>
+<td>
+
+### Notes:-
+
+- Separate workflow for different organization
+	- Helps to avoid hitting 6 hours scan time limit per scan.
+	- Managed GitHub change visualization.
+
+- Different schedule time for different workflows.
+	- This will avoid running your all scans at same time.
+
+</td>
+</tr>
+</table>
+
 ## Limitations
 
 GitHub free account comes with 2000 minutes/month of free scans, making it practically free to run your continuous scans in the cloud. Few noticeable limits that are worth mentioning are listed below.
