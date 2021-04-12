@@ -18,15 +18,27 @@ jobs:
         with:
           go-version: 1.14
 
+      - name: Setup Dependencies
+        run: sudo apt-get install libpcap-dev # Required for Naabu
+
+      - name: Cache Go
+        id: cache-go
+        uses: actions/cache@v2
+        with:
+          path: /home/runner/go
+          key: ${{ runner.os }}-go
+
       - name: Setting up ProjectDiscovery tools
+        if: steps.cache-go.outputs.cache-hit != 'true'
+        env:
+          GO111MODULE: on
         run: |
-          GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder
-          GO111MODULE=on go get -v github.com/projectdiscovery/dnsx/cmd/dnsx
-          sudo apt-get install libpcap-dev # Required for Naabu
-          GO111MODULE=on go get -v github.com/projectdiscovery/naabu/v2/cmd/naabu
-          GO111MODULE=on go get -v github.com/projectdiscovery/httpx/cmd/httpx
-          GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
-#          GO111MODULE=on go get -v github.com/projectdiscovery/notify/cmd/notify
+          go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder
+          go get -v github.com/projectdiscovery/dnsx/cmd/dnsx
+          go get -v github.com/projectdiscovery/naabu/v2/cmd/naabu
+          go get -v github.com/projectdiscovery/httpx/cmd/httpx
+          go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
+#           go get -v github.com/projectdiscovery/notify/cmd/notify
         shell: bash
 
       - name: Running SubFinder for passive DNS enumeration
@@ -87,6 +99,7 @@ jobs:
           git config --local user.email "sandeep@projectdiscovery.io"
           git config --global user.name "projectdiscovery"
           git commit -m "PD-Actions report" -a --allow-empty
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
