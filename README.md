@@ -82,7 +82,7 @@ We have also added a few [example workflows](https://github.com/projectdiscovery
 <tr>
 <td>
 
-### Notes:-
+### Notes:
 
 - Separate workflow for different organization
 	- Helps to avoid hitting 6 hours scan time limit per scan.
