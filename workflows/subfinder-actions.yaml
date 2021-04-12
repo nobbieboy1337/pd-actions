@@ -1,0 +1,48 @@
+name: subfinder-actions
+
+on:
+    schedule:
+      - cron: '0 0 * * *'
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Setup golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Installing Subfinder
+        run: |
+          GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder
+        shell: bash
+
+      - name: Running passive subdomain enumeration with subfinder
+        run: |
+          subfinder -dL input/domains.txt -config config/subfinder-config.yaml -o output/passive_subdomains.txt
+        shell: bash
+
+      - name: Sorting the output results
+        run: |
+          find output -type f -exec sort {} -o {} \;
+        shell: bash
+
+      - name: Create local changes
+        run: |
+          git add output/passive_subdomains.txt
+
+      - name: Commit files
+        run: |
+          git config --global user.email "sandeep@projectdiscovery.io"
+          git config --global user.name "projectdiscovery"
+          git commit -m "PD-Actions report" -a --allow-empty
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

@@ -1,0 +1,49 @@
+name: naabu-actions
+
+on:
+    schedule:
+      - cron: '0 0 * * *'
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Setup golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Installing Naabu
+        run: |
+          sudo apt-get install libpcap-dev # Required for Naabu
+          GO111MODULE=on go get -v github.com/projectdiscovery/naabu/v2/cmd/naabu
+        shell: bash
+
+      - name: Running active port enumeration with naabu
+        run: |
+          naabu -iL input/active_subdomains.txt -o output/active_ports.txt -rate 10000
+        shell: bash
+
+      - name: Sorting the output results
+        run: |
+          find output -type f -exec sort {} -o {} \;
+        shell: bash
+
+      - name: Create local changes
+        run: |
+          git add output/active_ports.txt
+
+      - name: Commit files
+        run: |
+          git config --global user.email "sandeep@projectdiscovery.io"
+          git config --global user.name "projectdiscovery"
+          git commit -m "PD-Actions report" -a --allow-empty
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

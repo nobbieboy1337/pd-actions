@@ -1,0 +1,53 @@
+name: nuclei-actions
+
+on:
+    schedule:
+      - cron: '0 0 * * *'
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Setup golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Installing Nuclei
+        run: |
+          GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
+        shell: bash
+
+      - name: Downloading Nuclei Templates
+        run: |
+          nuclei -update-templates
+        shell: bash
+
+      - name: Running vulnerability assessment with Nuclei
+        run: |
+          nuclei -t cves/ -l input/active_urls.txt -stats -c 50 -rl 300 -nc | tee output/nuclei_output.txt
+        shell: bash
+
+      - name: Sorting the output results
+        run: |
+          find output -type f -exec sort {} -o {} \;
+        shell: bash
+
+      - name: Create local changes
+        run: |
+          git add output/nuclei_output.txt
+
+      - name: Commit files
+        run: |
+          git config --global user.email "sandeep@projectdiscovery.io"
+          git config --global user.name "projectdiscovery"
+          git commit -m "PD-Actions report" -a --allow-empty
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

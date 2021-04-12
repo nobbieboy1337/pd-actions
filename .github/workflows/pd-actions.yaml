@@ -1,0 +1,94 @@
+name: pd-actions
+
+on:
+#    schedule:
+#      - cron: '0 0 * * *'
+# Remove both comments to run this action on daily basis.
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Setup golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.14
+
+      - name: Setting up ProjectDiscovery tools
+        run: |
+          GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder
+          GO111MODULE=on go get -v github.com/projectdiscovery/dnsx/cmd/dnsx
+          sudo apt-get install libpcap-dev # Required for Naabu
+          GO111MODULE=on go get -v github.com/projectdiscovery/naabu/v2/cmd/naabu
+          GO111MODULE=on go get -v github.com/projectdiscovery/httpx/cmd/httpx
+          GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
+#          GO111MODULE=on go get -v github.com/projectdiscovery/notify/cmd/notify
+        shell: bash
+
+      - name: Running SubFinder for passive DNS enumeration
+        run: |
+          subfinder -dL input/domains.txt -config config/subfinder-config.yaml -o output/passive_subdomains.txt
+        shell: bash
+
+      - name: Running dnsx for valid DNS filtering 
+        run: |
+          dnsx -l output/passive_subdomains.txt -t 50 | tee output/active_subdomains.txt
+        shell: bash
+
+      - name: Running naabu to check top 100 ports
+        run: |
+          naabu -iL output/active_subdomains.txt  -rate 10000 -top-ports 100 | tee output/active_ports.txt
+        shell: bash
+
+#      For running vulnerability assessment of cloud assets.
+#      - name: Enumerating hosts from Cloud with Cloudlist
+#        run: |
+#          cloudlist -config config/cloudlist-config.yaml -ip | tee output/cloud_hosts.txt >> output/active_ports.txt
+#        shell: bash
+
+      - name: Running httpx for HTTP webservers probbing
+        run: |
+          httpx -l output/active_ports.txt | tee output/active_urls.txt
+        shell: bash
+
+      - name: Downloading Nuclei Templates
+        run: |
+          nuclei -update-templates
+        shell: bash
+
+      - name: Running Nuclei for vulnerability assessment
+        run: |
+          nuclei -t cves/ -l output/active_urls.txt -bs 100 -c 50 -rl 300 -nc | tee output/nuclei_output.txt
+        shell: bash
+
+#     For posting results to slack/discord/telegram
+#          notify -slack -slack-webhook-url ${{ secrets.SLACK_WEBHOOK }} -slack-username notify
+
+      - name: Sorting the output results
+        run: |
+          find output -type f -exec sort {} -o {} \;
+        shell: bash
+
+      - name: Create local changes
+        run: |
+          git add output/passive_subdomains.txt
+          git add output/active_subdomains.txt
+          git add output/active_ports.txt
+          git add output/active_urls.txt
+          git add output/nuclei_output.txt
+#          git add output/cloud_hosts.txt
+
+      - name: Commit results to Github
+        run: |
+          git config --local user.email "sandeep@projectdiscovery.io"
+          git config --global user.name "projectdiscovery"
+          git commit -m "PD-Actions report" -a --allow-empty
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
