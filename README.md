@@ -19,9 +19,17 @@
 
 # Setup
 
-- Fork this project using the button at the top right side of the browser.
-- On the forked version, Update `input/domains.txt` with the target of your interest.
-- Done! You can manually trigger the action file under the Actions menu.
+- Create a new **private** repository from [here](https://github.com/new) with name `pd-actions`
+- Execute below commands, make sure to update `USER_NAME` with your GitHub username.
+
+```bash
+▶ git clone --bare https://github.com/projectdiscovery/pd-actions.git; cd pd-actions.git
+▶ git push --mirror https://github.com/USER_NAME/pd-actions.git
+```
+
+- Update `input/domains.txt` with the target of your interest.
+- Make required changes in `.github/workflows/pd-actions.yaml`
+- Now you will be able to see the "pd-actions" under Actions tab in your repository. 
 
 For running continuous periodic scan, remove the below comments form your actions file.
 
@@ -36,10 +44,6 @@ on:
 
 As default, **scans are scheduled to run at 12 AM on daily basis**, you can update schedule and flag values of various tools as per your need in <ins>.github/workflows/pd-actions.yaml</ins> file on your forked version.
 
-⚠️ Warning ⚠️
--------------
-
-GitHub does not allow to fork public project as private, so forking this project result into making your target domain as public, it is advised to duplicate this project as per [GitHub instruction](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository) to avoid disclosing sensitive information. 
 
 <table>
 <tr>
