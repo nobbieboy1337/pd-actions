@@ -46,6 +46,8 @@
 a-rsgisias.crrel.usace.army.mil
 a-tcop.arcent.army.mil
 a-tcop01.arcent.army.mil
+a.sorare.com
+a.staging.sorare.com
 a01.usamma.amedd.army.mil
 a09a-vlan60-3gw1-tlct.vicenza.army.mil
 a5341.resource.atidt.army.mil
@@ -243,11 +245,14 @@ adfsqa.kc.army.mil
 adfsresource.fsed.army.mil
 adh.usace.army.mil
 adlcwkls24901.army.mil
+admin-frontapp-plugin.sorare.com
 admin-myarmybenefits.us.army.mil
 admin-vpn-fw.ng.ds.army.mil
 admin.bcks.army.mil
 admin.cloud.army.mil
 admin.csla.army.mil
+admin.sorare.com
+admin.staging.sorare.com
 admin.warnings.army.mil
 admin.warnings1.army.mil
 adminpubs.tradoc.army.mil
@@ -675,6 +680,8 @@ api.army.mil
 api.bcks.army.mil
 api.cms.monterey.army.mil
 api.dencom.army.mil
+api.sorare.com
+api.staging.sorare.com
 apims.peostri.army.mil
 apm-test.altess.army.mil
 apm.altess.army.mil
@@ -931,6 +938,7 @@ asom.cvs.ellc.learn.army.mil
 asom.ellc.learn.army.mil
 aspire.apgea.army.mil
 assetmanagement.usace.army.mil
+assets.sorare.com
 assist.army.mil
 assist.monmouth.army.mil
 assist1.army.mil
@@ -1100,6 +1108,7 @@ benning-ts3-1.army.mil
 benningmw1.army.mil
 bennvc0358vpn01.nase.ds.army.mil
 bernard.l.dubreuil@erdc.usace.army.mil
+beta-api.sorare.com
 beta.army.mil
 beta.cnr.army.mil
 beta.dcgsa.army.mil
@@ -1107,6 +1116,7 @@ beta.jscbis.apgea.army.mil
 beta.peoiews.army.mil
 beta.pmpnt.apgea.army.mil
 beta.pmpnt.army.mil
+beta.sorare.com
 bfa.rttc.army.mil
 bfcca0b1g53wkh1.bisa.army.mil
 bgca-asa.csepp.army.mil
@@ -3053,6 +3063,7 @@ imcom.bliss.army.mil
 imcom.cloud.army.mil
 imcom2.bliss.army.mil
 imcomfeedback.army.mil
+img.sorare.com
 imgmt.hrc.army.mil
 immc.redstone.army.mil
 immcintranet.redstone.army.mil
@@ -4938,6 +4949,7 @@ promap.army.mil
 promis3-dev.sec.usace.army.mil
 proreading.army.mil
 proteus.usace.army.mil
+proxy.sorare.com
 proxy.ude.futures.army.mil
 proxybi.dev.garmy.army.mil
 proxybi.gcss-army.army.mil
@@ -5056,6 +5068,7 @@ radfa0233v10605.altess.army.mil
 radfb0131v21774.altess.army.mil
 radfgftvp.gfebs-erp.army.mil
 rahc.amedd.army.mil
+rancher.sorare.com
 range.sill.army.mil
 rangeactivitylog.rttc.army.mil
 rapidcapabilitiesoffice.army.mil
@@ -5737,6 +5750,7 @@ solution.soa.army.mil
 sompoims.army.mil
 sonarqube.create.army.mil
 soowebcams.lre.usace.army.mil
+sorare.com
 sos-dev.altess.army.mil
 sos-test.altess.army.mil
 sos.altess.army.mil
@@ -5959,6 +5973,7 @@ staging.msaf.army.mil
 staging.peostri.army.mil
 staging.reporting.arcadie.army.mil
 staging.sddc.army.mil
+staging.sorare.com
 staging.sts.arcadie.army.mil
 staging.warnings.army.mil
 staging.warnings1.army.mil
@@ -6648,6 +6663,7 @@ veda.amedd.army.mil
 vela.chrcs.army.mil
 vems.ria.army.mil
 venus1.ria.army.mil
+verdaccio.sorare.com
 vet1.amedd.army.mil
 vet2.amedd.army.mil
 vet3.amedd.army.mil
@@ -7847,6 +7863,7 @@ www.smdc.army.mil
 www.sms.army.mil
 www.soa.mdw.army.mil
 www.soldierforlife.army.mil
+www.sorare.com
 www.sos.army.mil
 www.spa.usace.army.mil
 www.spb.usace.army.mil
