@@ -78,7 +78,7 @@ jobs:
         shell: bash
 
 #     For posting results to slack/discord/telegram
-#          notify -slack -slack-webhook-url ${{ secrets.SLACK_WEBHOOK }} -slack-username notify
+#          notify -slack -slack-webhook-url ${{ https://hooks.slack.com/services/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 }} -#automation notify
 
       - name: Sorting the output results
         run: |
@@ -96,8 +96,8 @@ jobs:
 
       - name: Commit results to Github
         run: |
-          git config --local user.email "sandeep@projectdiscovery.io"
-          git config --global user.name "projectdiscovery"
+          git config --local user.email "mdakrammiya@gmail.com"
+          git config --global user.name "nobbieboy1337"
           git commit -m "PD-Actions report" -a --allow-empty
 
       - name: Push changes
