@@ -1,2 +1,4 @@
-army.mil
-navy.mil
+mail.ru
+my.com
+my.games
+ac.my.games
